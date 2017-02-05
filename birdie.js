@@ -108,7 +108,7 @@ function update() {
 			//this.player.body.velocity.x = 0;
 		
 		//} else if (this.cursors.left.isDown)
-    if (this.cursors.left.isDown && this.cursor.right.isUp) {
+    if (this.cursors.left.isDown && this.cursors.right.isUp) {
         this.player.body.velocity.x = -200;
 		
 		 if (this.facing != 'left')
@@ -118,7 +118,7 @@ function update() {
         }
 
     }
-    else if (this.cursors.right.isDown && this.cursor.left.isUp)
+    else if (this.cursors.right.isDown && this.cursors.left.isUp)
     {
         this.player.body.velocity.x = 200;
 		if (this.facing != 'right')
