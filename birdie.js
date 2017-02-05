@@ -103,12 +103,12 @@ function checkOverlap(body1, body2) {
 }
 
 function update() {
-
-	    //if (this.cursors.left.isDown && this.cursors.right.isDown) {
-			this.player.body.velocity.x = 0;
+	this.player.body.velocity.x = 0;
+    if (this.cursors.left.isDown && this.cursors.right.isDown) {
+			//this.player.body.velocity.x = 0;
 		
 		//} else if (this.cursors.left.isDown)
-    if (this.cursors.left.isDown) {
+    } else if (this.cursors.left.isDown) {
         this.player.body.velocity.x = -200;
 		
 		 if (this.facing != 'left')
