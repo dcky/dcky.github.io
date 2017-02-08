@@ -159,6 +159,7 @@ function update() {
 
 function spawnCoin() {
 			        coin = game.add.sprite(this.game.rnd.integerInRange(20, this.game.width-20), 16, 'coin');
+				coin.body.setCircle(16);
 				coin.name = "coin";
 
 		this.coinsOnScreen += 1;
