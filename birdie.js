@@ -1,6 +1,23 @@
 
+var win = {
+		
+		create: function() {
+        var winLabel = game.add.text(80,80,'YOU WON!',{font:'50px Arial', fill:'#FFF'});
+        var startLabel = game.add.text(80,game.world.height-80,'Press "w" to restart the game', {font:'25px Arial', fill:'#FFF'});
+
+        var wkey = game.input.keyboard.addKey(Phaser.Keyboard.W);
+        wkey.onDown.addOnce(this.restart,this);
+		}
+}
+
 var game = new Phaser.Game(800, 300, Phaser.AUTO, 'birdie', { preload: preload, create: create, update: update, render: render });
 
+//game.state.add('preload', preload);
+//game.state.add('create', create);
+//game.state.add('play', play);
+game.state.add('win', win);
+
+//game.state.start('preload');
 
 function preload() {
 
@@ -72,11 +89,17 @@ function checkOverlap(body1, body2) {
 			this.coinsOnScreen -= 1;
 			this.kuai += 1;
 			this.text.setText('Score: ' + this.kuai);
+			if (this.kuai > 2) {
+					game.state.start('win');
+			}
 		} else if (body2.sprite.name == 'coin') {
 			body2.sprite.kill();
 			this.coinsOnScreen -= 1;
 			this.kuai += 1;
-			this.text.setText('Score: ' + this.kuai);			
+			this.text.setText('Score: ' + this.kuai);
+			if (this.kuai > 2) {
+					game.state.start('win');
+			}			
 		}
 		
         return false;
@@ -104,12 +127,9 @@ function checkOverlap(body1, body2) {
 
 function update() {
 	this.player.body.velocity.x = 0;
-    //if (this.cursors.left.isDown && this.cursors.right.isDown) {
-			//this.player.body.velocity.x = 0;
-		
-		//} else if (this.cursors.left.isDown)
+
     if (this.cursors.left.isDown && this.cursors.right.isUp) {
-        this.player.body.velocity.x = -200;
+        this.player.body.velocity.x = -300;
 		
 		 if (this.facing != 'left')
         {
@@ -120,7 +140,7 @@ function update() {
     }
     else if (this.cursors.right.isDown && this.cursors.left.isUp)
     {
-        this.player.body.velocity.x = 200;
+        this.player.body.velocity.x = 300;
 		if (this.facing != 'right')
         {
             this.player.animations.play('right');
@@ -134,7 +154,14 @@ function update() {
 	
 	if (this.jumpButton.isDown) {
 		this.player.body.velocity.y = -200;
-		this.facing = 'idle';
+		if (this.facing === 'right') {
+            this.player.animations.play('right');
+        } else {
+			this.player.animations.play('left');
+		}
+		
+		
+		//this.facing = 'idle';
 	} else if (this.player.body.y > 243) {
 		this.player.animations.stop();
 		if (this.facing == 'left') {
@@ -159,14 +186,24 @@ function update() {
 
 function spawnCoin() {
 			        coin = game.add.sprite(this.game.rnd.integerInRange(20, this.game.width-20), 16, 'coin');
-				coin.body.setCircle(16);
+				
 				coin.name = "coin";
 
 		this.coinsOnScreen += 1;
         
 		game.physics.p2.enable(coin);
+		coin.body.setCircle(16);
 	
 }
+
+
+
+function restart() {
+    game.state.start('create');
+
+}
+	
+
 
 function render() {
 
