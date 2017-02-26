@@ -288,7 +288,7 @@ function resetEverything() {
 	player.frame = 0;
 	facing = "right";
 	game.add.tween(player).to( { alpha: 1 }, 500, "Quart.easeIn", true);
-	
+	text.setText('Score: 0');
 	player.body.x = 100;
 	player.body.y = 100;
 	
